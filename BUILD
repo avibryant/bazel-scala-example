@@ -1,6 +1,6 @@
-load("scala", "scala_library")
+load("@bazel//tools/build_defs/scala:scala.bzl", "scala_library")
 
 scala_library(
     name = "bazel-scala-example",
-    srcs = glob(["*.scala"]),
+    srcs = ["Foo.scala"],
 )
