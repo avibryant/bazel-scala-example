@@ -1,1 +1,3 @@
-# bazel-scala-example
+```
+bazel build :bazel-scala-example
+```
