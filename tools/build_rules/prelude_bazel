@@ -1,1 +1,1 @@
-load("@bazel//tools/build_defs/scala:scala.bzl", "scala_library", "scala_binary")
+load("@bazel//tools/build_defs/scala:scala.bzl", "scala_library", "scala_binary", "scala_test")

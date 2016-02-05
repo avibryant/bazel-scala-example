@@ -1,1 +1,3 @@
-object Foo
+object Foo {
+  val message = "hello world"
+}

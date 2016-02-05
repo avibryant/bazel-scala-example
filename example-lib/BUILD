@@ -3,3 +3,9 @@ scala_library(
     srcs = glob(["*.scala"]),
     visibility = ["//visibility:public"]
 )
+
+scala_test(
+  name = "test",
+  srcs = glob(["test/*.scala"]),
+  deps = ["example-lib"]
+)

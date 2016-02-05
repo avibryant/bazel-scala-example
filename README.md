@@ -1,5 +1,5 @@
-The simplest possible example of using Bazel to build scala.
+A minimal example of using bazel to build scala, with a library, binary, and tests.
 ```
-bazel build example-bin
-bazel-bin/example-bin/example-bin
+bazel test example-lib:test
+bazel run example-bin
 ```
