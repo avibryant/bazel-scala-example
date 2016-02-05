@@ -1,3 +1,4 @@
+The simplest possible example of using Bazel to build scala.
 ```
-bazel build :bazel-scala-example
+bazel build foo
 ```
