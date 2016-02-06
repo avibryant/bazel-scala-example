@@ -16,3 +16,27 @@ http_file(
     url = "https://oss.sonatype.org/content/groups/public/org/scalatest/scalatest_2.11/2.2.6/scalatest_2.11-2.2.6.jar",
     sha256 = "f198967436a5e7a69cfd182902adcfbcb9f2e41b349e1a5c8881a2407f615962",
 )
+
+######
+## External dependencies
+######
+
+load("/external/scalding"
+  , "apache_commons"
+  , "cascading"
+  , "chill"
+  , "guava"
+  , "hadoop"
+  , "twitter"
+)
+
+apache_commons("cli", "1.3.1")
+apache_commons("logging", "1.2")
+apache_commons("collections", "3.2.2")
+cascading("2.6.1")
+guava("11.0.2")
+hadoop("2.5.0")
+twitter("scalding", ["core", "date", "args", "serialization"], "0.16.0-RC3")
+twitter("bijection", ["core"], "0.9.1")
+twitter("algebird", ["core"], "0.12.0")
+chill("0.7.3")
