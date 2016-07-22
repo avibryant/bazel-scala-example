@@ -1,0 +1,15 @@
+options:
+  languages: ["java", "scala:2.11.8"]
+  versionConflictPolicy: highest
+  transitivity: runtime_deps
+  resolvers:
+    - id: mavencentral
+      type: default
+      url: https://repo.maven.apache.org/maven2/
+
+dependencies:
+  com.twitter:
+    algebird:
+      lang: scala
+      version: 0.12.1
+      modules: [core]
