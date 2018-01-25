@@ -17,5 +17,4 @@ load("@io_bazel_rules_scala//scala:toolchains.bzl", "scala_register_toolchains")
 scala_register_toolchains()
 
 load("//3rdparty:workspace.bzl", "maven_dependencies")
-load("//3rdparty:load.bzl", "declare_maven")
-maven_dependencies(declare_maven)
+maven_dependencies()
