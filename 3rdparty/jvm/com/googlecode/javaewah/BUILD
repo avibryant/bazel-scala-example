@@ -1,3 +1,11 @@
-java_library(name = "JavaEWAH",
-             exports = ["@com_googlecode_javaewah_JavaEWAH//jar"],
-             visibility = ["//visibility:public"])
+java_library(
+    name = "JavaEWAH",
+    exports = [
+        "//external:jar/com/googlecode/javaewah/JavaEWAH"
+    ],
+    visibility = [
+        "//visibility:public"
+    ]
+)
+
+
