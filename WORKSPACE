@@ -2,7 +2,7 @@ workspace(name = "scala_example")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-rules_scala_version="a89d44f7ef67d93dedfc9888630f48d7723516f7" # update this as needed
+rules_scala_version="a1c3b58e9c00c3815028a121b003cfe724bb34a6" # update this as needed
 
 http_archive(
     name = "io_bazel_rules_scala",
