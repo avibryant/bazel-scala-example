@@ -1,6 +1,6 @@
 scala_library(
     name = "example-maven",
     srcs = glob(["*.scala"]),
-    deps = ["//3rdparty/jvm/com/twitter:algebird_core"],
+    deps = ["@maven//:com_twitter_algebird_core_2_11"],
     visibility = ["//visibility:public"]
 )

@@ -4,10 +4,16 @@ bazel test example-lib:test
 bazel run example-bin
 ```
 
-Also includes an example of using https://github.com/johnynek/bazel-deps to generate transitive maven dependencies into `3rdparty` from `maven-dependencies.yaml`
+Also includes an example of using https://github.com/bazelbuild/rules_jvm_external to use transitive maven dependencies.
 
 ```
 bazel build example-maven
 ```
 
-See the bazel-deps README for info on the YAML file format and what to do after modifying it.
+See the rules_jvm_external README for info on how to use the dependencies.
+
+You may want to regenerate the maven-instal.json after changing depedencies with:
+
+```
+bazel run @unpinned_maven//:pin
+```
