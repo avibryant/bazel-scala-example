@@ -1,6 +1,6 @@
 scala_binary(
     name = "example-bin",
-    srcs = glob(["*.scala"]),
+    srcs = glob(["src/main/scala/**/*.scala"]),
     deps = ["//example-lib"],
     main_class = "Bar"
 )
