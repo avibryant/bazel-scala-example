@@ -2,8 +2,18 @@ workspace(name = "scala_example")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-rules_scala_version="26cf9b74fc46f1e9a970c97837447549ed7257b6" # update this as needed
-RULES_SCALA_SHA = "b6e416d6b4b3299baffeba6eb7df84c655d0344be32e58ed7b9ad63218c2e240"
+# bazel-skylib 0.8.0 released 2019.03.20 (https://github.com/bazelbuild/bazel-skylib/releases/tag/0.8.0)
+skylib_version = "0.8.0"
+
+http_archive(
+    name = "bazel_skylib",
+    sha256 = "2ef429f5d7ce7111263289644d233707dba35e39696377ebab8b0bc701f7818e",
+    type = "tar.gz",
+    url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
+)
+
+rules_scala_version="a676633dc14d8239569affb2acafbef255df3480" # update this as needed
+RULES_SCALA_SHA = "b8b18d0fe3f6c3401b4f83f78f536b24c7fb8b92c593c1dcbcd01cc2b3e85c9a"
 
 http_archive(
     name = "io_bazel_rules_scala",
@@ -20,8 +30,6 @@ scala_repositories()
 load("@io_bazel_rules_scala//scala:toolchains.bzl", "scala_register_toolchains")
 scala_register_toolchains()
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-
 PROTOBUF_VERSION = "09745575a923640154bcf307fba8aedff47f240a"
 
 PROTOBUF_VERSION_SHA256 = "416212e14481cff8fd4849b1c1c1200a7f34808a54377e22d7447efdf54ad758"
@@ -31,16 +39,6 @@ http_archive(
     sha256 = PROTOBUF_VERSION_SHA256,
     strip_prefix = "protobuf-%s" % PROTOBUF_VERSION,
     url = "https://github.com/protocolbuffers/protobuf/archive/%s.tar.gz" % PROTOBUF_VERSION,
-)
-
-# bazel-skylib 0.8.0 released 2019.03.20 (https://github.com/bazelbuild/bazel-skylib/releases/tag/0.8.0)
-skylib_version = "0.8.0"
-
-http_archive(
-    name = "bazel_skylib",
-    sha256 = "2ef429f5d7ce7111263289644d233707dba35e39696377ebab8b0bc701f7818e",
-    type = "tar.gz",
-    url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
 )
 
 RULES_JVM_EXTERNAL_TAG = "3.1"
