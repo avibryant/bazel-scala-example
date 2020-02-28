@@ -24,14 +24,7 @@ echo "Running 'bazel coverage'; this may take a while"
 # machine.
 bazel coverage -k --jobs=${COVERAGE_CPUS:-2} --extra_toolchains="@io_bazel_rules_scala//test/coverage:enable_code_coverage_aspect" -- ...
 
-# The coverage data contains filenames relative to the Java root, and
-# genhtml has no logic to search these elsewhere. Workaround this
-# limitation by running genhtml in a directory with the files in the
-# right place. Also -inexplicably- genhtml wants to have the source
-# files relative to the output directory.
-# You need to have your code in packages for this solution to work.
 mkdir -p ${destdir}/
-cp -a */src/{main,test}/scala/* ${destdir}/
 
 base=$(bazel info bazel-testlogs)
 for f in $(find ${base}  -name 'coverage.dat') ; do
@@ -39,9 +32,11 @@ for f in $(find ${base}  -name 'coverage.dat') ; do
   cp $f ${destdir}/$(echo $f| sed "s|${base}/||" | sed "s|/|_|g")
 done
 
+(
 cd ${destdir}
 find -name '*coverage.dat' -size 0 -delete
+)
 
-genhtml -o . --ignore-errors source *coverage.dat
+genhtml -o ${destdir} --ignore-errors source ${destdir}/*coverage.dat
 
 echo "coverage report at file://${destdir}/index.html"

@@ -12,8 +12,8 @@ http_archive(
     url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
 )
 
-rules_scala_version="a676633dc14d8239569affb2acafbef255df3480" # update this as needed
-RULES_SCALA_SHA = "b8b18d0fe3f6c3401b4f83f78f536b24c7fb8b92c593c1dcbcd01cc2b3e85c9a"
+rules_scala_version="e83df505ad87a2a5bdadd6b1230a1db579791b09" # update this as needed
+RULES_SCALA_SHA = "6a69c9a9f6928920755ac634046f32f851c290e43e7ebf199e651970e823e8a1"
 
 http_archive(
     name = "io_bazel_rules_scala",
@@ -30,19 +30,18 @@ scala_repositories()
 load("@io_bazel_rules_scala//scala:toolchains.bzl", "scala_register_toolchains")
 scala_register_toolchains()
 
-PROTOBUF_VERSION = "09745575a923640154bcf307fba8aedff47f240a"
-
-PROTOBUF_VERSION_SHA256 = "416212e14481cff8fd4849b1c1c1200a7f34808a54377e22d7447efdf54ad758"
+protobuf_version="3.11.3"
+protobuf_version_sha256="cf754718b0aa945b00550ed7962ddc167167bd922b842199eeb6505e6f344852"
 
 http_archive(
     name = "com_google_protobuf",
-    sha256 = PROTOBUF_VERSION_SHA256,
-    strip_prefix = "protobuf-%s" % PROTOBUF_VERSION,
-    url = "https://github.com/protocolbuffers/protobuf/archive/%s.tar.gz" % PROTOBUF_VERSION,
+    url = "https://github.com/protocolbuffers/protobuf/archive/v%s.tar.gz" % protobuf_version,
+    strip_prefix = "protobuf-%s" % protobuf_version,
+    sha256 = protobuf_version_sha256,
 )
 
-RULES_JVM_EXTERNAL_TAG = "3.1"
-RULES_JVM_EXTERNAL_SHA = "e246373de2353f3d34d35814947aa8b7d0dd1a58c2f7a6c41cfeaff3007c2d14"
+RULES_JVM_EXTERNAL_TAG = "3.2"
+RULES_JVM_EXTERNAL_SHA = "82262ff4223c5fda6fb7ff8bd63db8131b51b413d26eb49e3131037e79e324af"
 
 http_archive(
     name = "rules_jvm_external",
