@@ -22,21 +22,14 @@ echo "Running 'bazel coverage'; this may take a while"
 
 # coverage is expensive to run; use --jobs=2 to avoid overloading the
 # machine.
-bazel coverage -k --jobs=${COVERAGE_CPUS:-2} --extra_toolchains="@io_bazel_rules_scala//test/coverage:enable_code_coverage_aspect" -- ...
+bazel coverage -k --jobs=${COVERAGE_CPUS:-2} \
+  --extra_toolchains="@io_bazel_rules_scala//test/coverage:enable_code_coverage_aspect" \
+  --combined_report=lcov \
+  --coverage_report_generator="@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main" \
+  //...
 
 mkdir -p ${destdir}/
 
-base=$(bazel info bazel-testlogs)
-for f in $(find ${base}  -name 'coverage.dat') ; do
-  # TODO: you may want to add minimal coverage check here. Current coverage may be extracted from lcov --summary $f
-  cp $f ${destdir}/$(echo $f| sed "s|${base}/||" | sed "s|/|_|g")
-done
-
-(
-cd ${destdir}
-find -name '*coverage.dat' -size 0 -delete
-)
-
-genhtml -o ${destdir} --ignore-errors source ${destdir}/*coverage.dat
+genhtml -o ${destdir} --ignore-errors source bazel-out/_coverage/_coverage_report.dat
 
 echo "coverage report at file://${destdir}/index.html"

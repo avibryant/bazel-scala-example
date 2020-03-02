@@ -12,7 +12,11 @@ Code coverage:
 sudo apt install lcov
 
 # Run tests with coverage:
-bazel coverage --extra_toolchains="@io_bazel_rules_scala//test/coverage:enable_code_coverage_aspect" //...
+bazel coverage \
+  --extra_toolchains="@io_bazel_rules_scala//test/coverage:enable_code_coverage_aspect" \
+  --combined_report=lcov \
+  --coverage_report_generator="@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main" \
+  //...
 
 # Analyse results with lcov:
 lcov --list bazel-out/k8-fastbuild/testlogs/example-lib/test/coverage.dat
