@@ -12,8 +12,8 @@ http_archive(
     url = "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib.{}.tar.gz".format(skylib_version, skylib_version),
 )
 
-rules_scala_version="e83df505ad87a2a5bdadd6b1230a1db579791b09" # update this as needed
-RULES_SCALA_SHA = "6a69c9a9f6928920755ac634046f32f851c290e43e7ebf199e651970e823e8a1"
+rules_scala_version="87b2f439a918efb1adb695ee662dcce03b064ea3" # update this as needed
+RULES_SCALA_SHA = "5ffa3a1c39e29fa24ff99b3f5e7f12107fc78c475b7454825c580a9224044434"
 
 http_archive(
     name = "io_bazel_rules_scala",

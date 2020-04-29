@@ -13,7 +13,7 @@ sudo apt install lcov
 
 # Run tests with coverage:
 bazel coverage \
-  --extra_toolchains="@io_bazel_rules_scala//test/coverage:enable_code_coverage_aspect" \
+  --extra_toolchains="@io_bazel_rules_scala//scala:code_coverage_toolchain" \
   --combined_report=lcov \
   --coverage_report_generator="@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main" \
   //...

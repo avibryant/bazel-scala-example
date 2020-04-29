@@ -23,7 +23,7 @@ echo "Running 'bazel coverage'; this may take a while"
 # coverage is expensive to run; use --jobs=2 to avoid overloading the
 # machine.
 bazel coverage -k --jobs=${COVERAGE_CPUS:-2} \
-  --extra_toolchains="@io_bazel_rules_scala//test/coverage:enable_code_coverage_aspect" \
+  --extra_toolchains="@io_bazel_rules_scala//scala:code_coverage_toolchain" \
   --combined_report=lcov \
   --coverage_report_generator="@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main" \
   //...
