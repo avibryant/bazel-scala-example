@@ -28,7 +28,7 @@ http_archive(
 
 load("@io_bazel_rules_scala//:scala_config.bzl", "scala_config")
 
-scala_config(scala_version = "2.11.12")
+scala_config()
 
 load("@io_bazel_rules_scala//scala:scala.bzl", "scala_repositories")
 
@@ -72,15 +72,15 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 maven_install(
     artifacts = [
         "junit:junit:4.12",
-        "org.scalatest:scalatest_2.11:3.0.5",
-        "com.twitter:algebird-core_2.11:0.12.1",
+        "org.scalatest:scalatest_2.12:3.0.5",
+        "com.twitter:algebird-core_2.12:0.13.7",
     ],
     # Some useful options that you may want to try:
     fetch_sources = True,
     maven_install_json = "//:maven_install.json",
     repositories = [
         "https://jcenter.bintray.com/",
-        "https://repo1.maven.org/maven2",
+        "https://repo.maven.apache.org/maven2",
     ],
     resolve_timeout = 1200,
     # If you have a lot of dependencies, then you may want to try caching:
