@@ -28,7 +28,7 @@ http_archive(
 
 load("@io_bazel_rules_scala//:scala_config.bzl", "scala_config")
 
-scala_config()
+scala_config(scala_version = "2.13.6")
 
 load("@io_bazel_rules_scala//scala:scala.bzl", "scala_repositories")
 
@@ -69,11 +69,13 @@ http_archive(
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
+SCALA_VERSION = "2.13"
+
 maven_install(
     artifacts = [
         "junit:junit:4.12",
-        "org.scalatest:scalatest_2.12:3.0.5",
-        "com.twitter:algebird-core_2.12:0.13.7",
+        "org.scalatest:scalatest_%s:3.0.8" % SCALA_VERSION,
+        "com.twitter:algebird-core_%s:0.13.7" % SCALA_VERSION,
     ],
     # Some useful options that you may want to try:
     fetch_sources = True,
