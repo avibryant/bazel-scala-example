@@ -14,9 +14,17 @@ http_archive(
     url = "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib-{}.tar.gz".format(skylib_version, skylib_version),
 )
 
-rules_scala_version = "7d8fd8a8bf296916384b52028ec2ddaedb1fbbd9"
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-RULES_SCALA_SHA = "1082476c8fd5b6bfa53f03bf0619bb32a9d0ccaae396cbcc1a2ba2bd71b2ecc8"
+http_archive(
+    name = "rules_python",
+    sha256 = "954aa89b491be4a083304a2cb838019c8b8c3720a7abb9c4cb81ac7a24230cea",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.4.0/rules_python-0.4.0.tar.gz",
+)
+
+rules_scala_version = "0f38f217d1313d564bcc6c00976551e775be0ade"
+
+RULES_SCALA_SHA = "dee8016ccca001e63c081a87ee307efb27c35beb616b6e613f83e7c77cf0a9fd"
 
 http_archive(
     name = "io_bazel_rules_scala",
@@ -56,9 +64,20 @@ http_archive(
     url = "https://github.com/protocolbuffers/protobuf/archive/v%s.tar.gz" % protobuf_version,
 )
 
-RULES_JVM_EXTERNAL_TAG = "4.0"
+http_archive(
+    name = "zlib",
+    build_file = "@com_google_protobuf//:third_party/zlib.BUILD",
+    sha256 = "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1",
+    strip_prefix = "zlib-1.2.11",
+    urls = [
+        "https://mirror.bazel.build/zlib.net/zlib-1.2.11.tar.gz",
+        "https://zlib.net/zlib-1.2.11.tar.gz",
+    ],
+)
 
-RULES_JVM_EXTERNAL_SHA = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
+RULES_JVM_EXTERNAL_TAG = "4.1"
+
+RULES_JVM_EXTERNAL_SHA = "f36441aa876c4f6427bfb2d1f2d723b48e9d930b62662bf723ddfb8fc80f0140"
 
 http_archive(
     name = "rules_jvm_external",
