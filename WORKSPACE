@@ -39,9 +39,7 @@ load("@io_bazel_rules_scala//scala:scala.bzl", "scala_repositories")
 
 scala_repositories()
 
-load("@io_bazel_rules_scala//scala:toolchains.bzl", "scala_register_toolchains")
-
-scala_register_toolchains()
+register_toolchains("//tools/jdk:my_scala_toolchain")
 
 # optional: setup ScalaTest toolchain and dependencies
 load("@io_bazel_rules_scala//testing:scalatest.bzl", "scalatest_repositories", "scalatest_toolchain")
@@ -92,6 +90,9 @@ maven_install(
         "junit:junit:4.12",
         "org.scalatest:scalatest_%s:3.0.8" % SCALA_VERSION,
         "com.twitter:algebird-core_%s:0.13.7" % SCALA_VERSION,
+        "org.scala-lang:scala-library:jar:2.13.8",
+        "org.scala-lang:scala-reflect:jar:2.13.8",
+        "org.scala-lang:scala-compiler:jar:2.13.8",
     ],
     # Some useful options that you may want to try:
     fetch_sources = True,

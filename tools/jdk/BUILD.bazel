@@ -1,4 +1,6 @@
 load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "DEFAULT_JAVACOPTS", "DEFAULT_TOOLCHAIN_CONFIGURATION", "JDK9_JVM_OPTS", "default_java_toolchain")
+load("@io_bazel_rules_scala//scala:scala_toolchain.bzl", "scala_toolchain")
+load("@io_bazel_rules_scala//scala:providers.bzl", "declare_deps_provider")
 
 default_java_toolchain(
     name = "java11_toolchain",
@@ -8,4 +10,66 @@ default_java_toolchain(
     source_version = "11",
     target_version = "11",
     visibility = ["//visibility:public"],
+)
+
+scala_toolchain(
+    name = "my_toolchain_impl",
+    dep_providers = [
+        ":my_scala_compile_classpath_provider",
+        ":my_scala_library_classpath_provider",
+        ":my_scala_macro_classpath_provider",
+        ":my_scala_xml_provider",
+        ":my_parser_combinators_provider",
+    ],
+    scalacopts = ["-Ywarn-unused"],
+    unused_dependency_checker_mode = "off",
+    visibility = ["//visibility:public"],
+)
+
+toolchain(
+    name = "my_scala_toolchain",
+    toolchain = "my_toolchain_impl",
+    toolchain_type = "@io_bazel_rules_scala//scala:toolchain_type",
+    visibility = ["//visibility:public"],
+)
+
+declare_deps_provider(
+    name = "my_scala_compile_classpath_provider",
+    deps_id = "scala_compile_classpath",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:org_scala_lang_scala_compiler",
+        "@maven//:org_scala_lang_scala_library",
+        "@maven//:org_scala_lang_scala_reflect",
+    ],
+)
+
+declare_deps_provider(
+    name = "my_scala_library_classpath_provider",
+    deps_id = "scala_library_classpath",
+    deps = [
+        "@maven//:org_scala_lang_scala_library",
+        "@maven//:org_scala_lang_scala_reflect",
+    ],
+)
+
+declare_deps_provider(
+    name = "my_scala_macro_classpath_provider",
+    deps_id = "scala_macro_classpath",
+    deps = [
+        "@maven//:org_scala_lang_scala_library",
+        "@maven//:org_scala_lang_scala_reflect",
+    ],
+)
+
+declare_deps_provider(
+    name = "my_scala_xml_provider",
+    deps_id = "scala_xml",
+    deps = ["@io_bazel_rules_scala_scala_xml"],
+)
+
+declare_deps_provider(
+    name = "my_parser_combinators_provider",
+    deps_id = "parser_combinators",
+    deps = ["@io_bazel_rules_scala_scala_parser_combinators"],
 )
