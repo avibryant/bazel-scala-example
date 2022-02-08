@@ -2,8 +2,8 @@ build --disk_cache=~/.cache/bazel/disk_cache
 test --disk_cache=~/.cache/bazel/disk_cache
 coverage --disk_cache=~/.cache/bazel/disk_cache
 
-build --java_toolchain=//tools/jdk:java8_toolchain
-build --host_java_toolchain=//tools/jdk:java8_toolchain
+build --java_toolchain=//tools/jdk:java11_toolchain
+build --host_java_toolchain=//tools/jdk:java11_toolchain
 
-build --javabase=//tools/jdk:jdk8
-build --host_javabase=//tools/jdk:jdk8
+build --javabase=//tools/jdk:jdk11
+build --host_javabase=//tools/jdk:jdk11
