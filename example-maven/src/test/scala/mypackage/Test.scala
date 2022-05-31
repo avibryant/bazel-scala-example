@@ -1,8 +1,8 @@
 package mypackage
 
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class TestSuite extends FlatSpec {
+class TestSuite extends AnyFlatSpec {
   "things" should "work" in {
     assert(Maven.message == "hello world")
   }

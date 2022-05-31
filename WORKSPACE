@@ -22,9 +22,9 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_python/releases/download/0.4.0/rules_python-0.4.0.tar.gz",
 )
 
-rules_scala_version = "0f38f217d1313d564bcc6c00976551e775be0ade"
+rules_scala_version = "4ba3780fcba8d26980daff4639abc6f18517308b"
 
-RULES_SCALA_SHA = "dee8016ccca001e63c081a87ee307efb27c35beb616b6e613f83e7c77cf0a9fd"
+RULES_SCALA_SHA = "21f613c25685ec5fdd32f25d0c8ef272cf81636261dda72ce1e99d63c377f0d8"
 
 http_archive(
     name = "io_bazel_rules_scala",
