@@ -1,9 +1,6 @@
 workspace(name = "scala_example")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("//tools/jdk:jdks.bzl", "jdk_repositories")
-
-jdk_repositories()
 
 skylib_version = "1.0.3"
 
@@ -111,3 +108,5 @@ maven_install(
 load("@maven//:defs.bzl", "pinned_maven_install")
 
 pinned_maven_install()
+
+register_toolchains("//tools/jdk:java11_toolchain_definition")

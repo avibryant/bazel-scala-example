@@ -1,21 +1,8 @@
-load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "DEFAULT_JAVACOPTS", "JDK9_JVM_OPTS", "default_java_toolchain")
-
-alias(
-    name = "jdk11",
-    actual = select(
-        {
-            "@bazel_tools//src/conditions:linux_x86_64": "@jdk11_linux//:jdk",
-            "@bazel_tools//src/conditions:darwin": "@jdk11_macos//:jdk",
-            "@bazel_tools//src/conditions:darwin_x86_64": "@jdk11_macos//:jdk",
-        },
-        no_match_error = "Could not find a JDK for host execution environment, please explicitly" +
-                         " provide one using `--host_javabase.`",
-    ),
-    visibility = ["//visibility:public"],
-)
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "DEFAULT_JAVACOPTS", "DEFAULT_TOOLCHAIN_CONFIGURATION", "JDK9_JVM_OPTS", "default_java_toolchain")
 
 default_java_toolchain(
     name = "java11_toolchain",
+    configuration = DEFAULT_TOOLCHAIN_CONFIGURATION,
     javacopts = DEFAULT_JAVACOPTS,
     jvm_opts = JDK9_JVM_OPTS,
     source_version = "11",
