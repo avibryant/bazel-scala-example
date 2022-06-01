@@ -2,26 +2,30 @@ workspace(name = "scala_example")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-skylib_version = "1.0.3"
+skylib_version = "1.3.0"
 
 http_archive(
     name = "bazel_skylib",
-    sha256 = "1c531376ac7e5a180e0237938a2536de0c54d93f5c278634818e0efc952dd56c",
+    sha256 = "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506",
     type = "tar.gz",
-    url = "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib-{}.tar.gz".format(skylib_version, skylib_version),
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib-{}.tar.gz".format(skylib_version, skylib_version),
+        "https://github.com/bazelbuild/bazel-skylib/releases/download/{}/bazel-skylib-{}.tar.gz".format(skylib_version, skylib_version),
+    ],
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "rules_python",
-    sha256 = "954aa89b491be4a083304a2cb838019c8b8c3720a7abb9c4cb81ac7a24230cea",
-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.4.0/rules_python-0.4.0.tar.gz",
+    sha256 = "a868059c8c6dd6ad45a205cca04084c652cfe1852e6df2d5aca036f6e5438380",
+    strip_prefix = "rules_python-0.14.0",
+    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.14.0.tar.gz",
 )
 
-rules_scala_version = "4ba3780fcba8d26980daff4639abc6f18517308b"
+rules_scala_version = "73f5d1a7da081c9f5160b9ed7ac745388af28e23"
 
-RULES_SCALA_SHA = "21f613c25685ec5fdd32f25d0c8ef272cf81636261dda72ce1e99d63c377f0d8"
+RULES_SCALA_SHA = "ebc2b00d599a73e62743bee5e4b11e5e94f35692b869d49f31b04faec380c16c"
 
 http_archive(
     name = "io_bazel_rules_scala",
@@ -48,9 +52,9 @@ scalatest_repositories()
 
 scalatest_toolchain()
 
-protobuf_version = "3.11.3"
+protobuf_version = "3.17.3"
 
-protobuf_version_sha256 = "cf754718b0aa945b00550ed7962ddc167167bd922b842199eeb6505e6f344852"
+protobuf_version_sha256 = "c6003e1d2e7fefa78a3039f19f383b4f3a61e81be8c19356f85b6461998ad3db"
 
 http_archive(
     name = "com_google_protobuf",
@@ -70,9 +74,9 @@ http_archive(
     ],
 )
 
-RULES_JVM_EXTERNAL_TAG = "4.1"
+RULES_JVM_EXTERNAL_TAG = "4.5"
 
-RULES_JVM_EXTERNAL_SHA = "f36441aa876c4f6427bfb2d1f2d723b48e9d930b62662bf723ddfb8fc80f0140"
+RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
 
 http_archive(
     name = "rules_jvm_external",
@@ -110,4 +114,4 @@ load("@maven//:defs.bzl", "pinned_maven_install")
 
 pinned_maven_install()
 
-register_toolchains("//tools/jdk:java11_toolchain_definition")
+register_toolchains("//tools/jdk:java17_toolchain_definition")

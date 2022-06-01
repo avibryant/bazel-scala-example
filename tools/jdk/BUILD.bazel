@@ -1,14 +1,17 @@
-load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "DEFAULT_JAVACOPTS", "DEFAULT_TOOLCHAIN_CONFIGURATION", "JDK9_JVM_OPTS", "default_java_toolchain")
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "BASE_JDK9_JVM_OPTS", "DEFAULT_JAVACOPTS", "DEFAULT_TOOLCHAIN_CONFIGURATION", "default_java_toolchain")
 load("@io_bazel_rules_scala//scala:scala_toolchain.bzl", "scala_toolchain")
 load("@io_bazel_rules_scala//scala:providers.bzl", "declare_deps_provider")
 
 default_java_toolchain(
-    name = "java11_toolchain",
+    name = "java17_toolchain",
     configuration = DEFAULT_TOOLCHAIN_CONFIGURATION,
+    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
     javacopts = DEFAULT_JAVACOPTS,
-    jvm_opts = JDK9_JVM_OPTS,
-    source_version = "11",
-    target_version = "11",
+    # jvm_opts needs to stay this one also for Java 11, it seems to be common for Java 9+ versions.
+    # It includes e.g. Java module system options.
+    jvm_opts = BASE_JDK9_JVM_OPTS,
+    source_version = "17",
+    target_version = "17",
     visibility = ["//visibility:public"],
 )
 
