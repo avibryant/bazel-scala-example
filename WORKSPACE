@@ -43,9 +43,10 @@ http_archive(
 
 load("@io_bazel_rules_scala//:scala_config.bzl", "scala_config")
 
-scala_full_version = "2.13.12"
+SCALA_BINARY_VERSION = "2.13"
+SCALA_VERSION = "2.13.12"
 
-scala_config(scala_version = scala_full_version)
+scala_config(scala_version = SCALA_VERSION)
 
 load("@io_bazel_rules_scala//scala:scala.bzl", "rules_scala_setup", "rules_scala_toolchain_deps_repositories")
 
@@ -113,16 +114,14 @@ http_archive(
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-SCALA_VERSION = "2.13"
-
 maven_install(
     artifacts = [
         "junit:junit:4.12",
-        "org.scalatest:scalatest_%s:3.0.8" % SCALA_VERSION,
-        "com.twitter:algebird-core_%s:0.13.7" % SCALA_VERSION,
-        "org.scala-lang:scala-library:jar:%s" % scala_full_version,
-        "org.scala-lang:scala-reflect:jar:%s" % scala_full_version,
-        "org.scala-lang:scala-compiler:jar:%s" % scala_full_version,
+        "org.scalatest:scalatest_%s:3.0.8" % SCALA_BINARY_VERSION,
+        "com.twitter:algebird-core_%s:0.13.7" % SCALA_BINARY_VERSION,
+        "org.scala-lang:scala-library:jar:%s" % SCALA_VERSION,
+        "org.scala-lang:scala-reflect:jar:%s" % SCALA_VERSION,
+        "org.scala-lang:scala-compiler:jar:%s" % SCALA_VERSION,
     ],
     # Some useful options that you may want to try:
     fetch_sources = True,
