@@ -18,30 +18,41 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "rules_python",
-    sha256 = "a868059c8c6dd6ad45a205cca04084c652cfe1852e6df2d5aca036f6e5438380",
-    strip_prefix = "rules_python-0.14.0",
-    url = "https://github.com/bazelbuild/rules_python/archive/refs/tags/0.14.0.tar.gz",
+    sha256 = "5868e73107a8e85d8f323806e60cad7283f34b32163ea6ff1020cf27abef6036",
+    strip_prefix = "rules_python-0.25.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.25.0/rules_python-0.25.0.tar.gz",
 )
 
-rules_scala_version = "73f5d1a7da081c9f5160b9ed7ac745388af28e23"
+load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
 
-RULES_SCALA_SHA = "ebc2b00d599a73e62743bee5e4b11e5e94f35692b869d49f31b04faec380c16c"
+py_repositories()
+
+python_register_toolchains(
+    name = "python3_8",
+    # Available versions are listed in @rules_python//python:versions.bzl.
+    # We recommend using the same version your team is already standardized on.
+    python_version = "3.8",
+)
 
 http_archive(
     name = "io_bazel_rules_scala",
-    sha256 = RULES_SCALA_SHA,
-    strip_prefix = "rules_scala-%s" % rules_scala_version,
-    type = "zip",
-    url = "https://github.com/bazelbuild/rules_scala/archive/%s.zip" % rules_scala_version,
+    sha256 = "ae4e74b6c696f40544cafb06b26bf4e601f83a0f29fb6500f0275c988f8cfe40",
+    strip_prefix = "rules_scala-6.2.0",
+    url = "https://github.com/bazelbuild/rules_scala/releases/download/v6.2.0/rules_scala-v6.2.0.tar.gz",
 )
 
 load("@io_bazel_rules_scala//:scala_config.bzl", "scala_config")
 
-scala_config(scala_version = "2.13.6")
+scala_full_version = "2.13.12"
 
-load("@io_bazel_rules_scala//scala:scala.bzl", "scala_repositories")
+scala_config(scala_version = scala_full_version)
 
-scala_repositories()
+load("@io_bazel_rules_scala//scala:scala.bzl", "rules_scala_setup", "rules_scala_toolchain_deps_repositories")
+
+# Loads other rules Rules Scala depends on.
+rules_scala_setup()
+
+rules_scala_toolchain_deps_repositories()
 
 register_toolchains("//tools/jdk:my_scala_toolchain")
 
@@ -52,9 +63,9 @@ scalatest_repositories()
 
 scalatest_toolchain()
 
-protobuf_version = "3.17.3"
+protobuf_version = "3.21.10"
 
-protobuf_version_sha256 = "c6003e1d2e7fefa78a3039f19f383b4f3a61e81be8c19356f85b6461998ad3db"
+protobuf_version_sha256 = "90de7e780db97e0ee8cfabc3aecc0da56c3d443824b968ec0c7c600f9585b9ba"
 
 http_archive(
     name = "com_google_protobuf",
@@ -74,9 +85,24 @@ http_archive(
     ],
 )
 
-RULES_JVM_EXTERNAL_TAG = "4.5"
+rules_pkg_version = "0.9.1"
 
-RULES_JVM_EXTERNAL_SHA = "b17d7388feb9bfa7f2fa09031b32707df529f26c91ab9e5d909eb1676badd9a6"
+http_archive(
+    name = "rules_pkg",
+    sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/%s/rules_pkg-%s.tar.gz" % (rules_pkg_version, rules_pkg_version),
+        "https://github.com/bazelbuild/rules_pkg/releases/download/%s/rules_pkg-%s.tar.gz" % (rules_pkg_version, rules_pkg_version),
+    ],
+)
+
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+
+rules_pkg_dependencies()
+
+RULES_JVM_EXTERNAL_TAG = "5.3"
+
+RULES_JVM_EXTERNAL_SHA = "6cc8444b20307113a62b676846c29ff018402fd4c7097fcd6d0a0fd5f2e86429"
 
 http_archive(
     name = "rules_jvm_external",
@@ -94,9 +120,9 @@ maven_install(
         "junit:junit:4.12",
         "org.scalatest:scalatest_%s:3.0.8" % SCALA_VERSION,
         "com.twitter:algebird-core_%s:0.13.7" % SCALA_VERSION,
-        "org.scala-lang:scala-library:jar:2.13.8",
-        "org.scala-lang:scala-reflect:jar:2.13.8",
-        "org.scala-lang:scala-compiler:jar:2.13.8",
+        "org.scala-lang:scala-library:jar:%s" % scala_full_version,
+        "org.scala-lang:scala-reflect:jar:%s" % scala_full_version,
+        "org.scala-lang:scala-compiler:jar:%s" % scala_full_version,
     ],
     # Some useful options that you may want to try:
     fetch_sources = True,
@@ -106,8 +132,6 @@ maven_install(
         "https://repo.maven.apache.org/maven2",
     ],
     resolve_timeout = 1200,
-    # If you have a lot of dependencies, then you may want to try caching:
-    use_unsafe_shared_cache = True,
 )
 
 load("@maven//:defs.bzl", "pinned_maven_install")
