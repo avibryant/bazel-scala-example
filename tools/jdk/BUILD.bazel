@@ -1,6 +1,8 @@
 load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "BASE_JDK9_JVM_OPTS", "DEFAULT_JAVACOPTS", "DEFAULT_TOOLCHAIN_CONFIGURATION", "default_java_toolchain")
 load("@io_bazel_rules_scala//scala:scala_toolchain.bzl", "scala_toolchain")
 load("@io_bazel_rules_scala//scala:providers.bzl", "declare_deps_provider")
+load("@io_bazel_rules_scala//scala/scalafmt/toolchain:toolchain.bzl", "export_scalafmt_deps", "scalafmt_toolchain")
+load("//tools:scala_version.bzl", "scala_binary_suffix")
 
 default_java_toolchain(
     name = "java17_toolchain",
@@ -75,4 +77,37 @@ declare_deps_provider(
     name = "my_parser_combinators_provider",
     deps_id = "parser_combinators",
     deps = ["@io_bazel_rules_scala_scala_parser_combinators"],
+)
+
+# Scalafmt
+declare_deps_provider(
+    name = "scalafmt_classpath_provider",
+    deps_id = "scalafmt_classpath",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:com_geirsson_metaconfig_core_%s" % scala_binary_suffix,
+        "@maven//:org_scalameta_parsers_%s" % scala_binary_suffix,
+        "@maven//:org_scalameta_scalafmt_core_%s" % scala_binary_suffix,
+    ],
+)
+
+scalafmt_toolchain(
+    name = "scalafmt_toolchain_impl",
+    dep_providers = [
+        ":scalafmt_classpath_provider",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+toolchain(
+    name = "scalafmt_toolchain",
+    toolchain = ":scalafmt_toolchain_impl",
+    toolchain_type = "@io_bazel_rules_scala//scala/scalafmt/toolchain:scalafmt_toolchain_type",
+    visibility = ["//visibility:public"],
+)
+
+export_scalafmt_deps(
+    name = "scalafmt_classpath",
+    deps_id = "scalafmt_classpath",
+    visibility = ["//visibility:public"],
 )

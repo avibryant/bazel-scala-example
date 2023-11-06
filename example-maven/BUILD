@@ -3,6 +3,7 @@ SCALA_VERSION = "2_13"
 scala_library(
     name = "example-maven",
     srcs = glob(["src/main/scala/**/*.scala"]),
+    format = True,
     visibility = ["//visibility:public"],
     deps = [
         "@maven//:com_twitter_algebird_core_%s" % SCALA_VERSION,

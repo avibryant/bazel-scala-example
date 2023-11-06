@@ -41,12 +41,10 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_scala/releases/download/v6.2.0/rules_scala-v6.2.0.tar.gz",
 )
 
+load("//tools:scala_version.bzl", "scala_binary_suffix", "scala_binary_version", "scala_version")
 load("@io_bazel_rules_scala//:scala_config.bzl", "scala_config")
 
-SCALA_BINARY_VERSION = "2.13"
-SCALA_VERSION = "2.13.12"
-
-scala_config(scala_version = SCALA_VERSION)
+scala_config(scala_version = scala_version)
 
 load("@io_bazel_rules_scala//scala:scala.bzl", "rules_scala_setup", "rules_scala_toolchain_deps_repositories")
 
@@ -63,6 +61,12 @@ load("@io_bazel_rules_scala//testing:scalatest.bzl", "scalatest_repositories", "
 scalatest_repositories()
 
 scalatest_toolchain()
+
+load("@io_bazel_rules_scala//scala/scalafmt:scalafmt_repositories.bzl", "scalafmt_default_config", "scalafmt_repositories")
+
+scalafmt_default_config()
+
+register_toolchains("//tools/jdk:scalafmt_toolchain")
 
 protobuf_version = "3.21.10"
 
@@ -117,11 +121,12 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 maven_install(
     artifacts = [
         "junit:junit:4.12",
-        "org.scalatest:scalatest_%s:3.0.8" % SCALA_BINARY_VERSION,
-        "com.twitter:algebird-core_%s:0.13.7" % SCALA_BINARY_VERSION,
-        "org.scala-lang:scala-library:jar:%s" % SCALA_VERSION,
-        "org.scala-lang:scala-reflect:jar:%s" % SCALA_VERSION,
-        "org.scala-lang:scala-compiler:jar:%s" % SCALA_VERSION,
+        "org.scalatest:scalatest_%s:3.0.8" % scala_binary_version,
+        "com.twitter:algebird-core_%s:0.13.7" % scala_binary_version,
+        "org.scala-lang:scala-library:jar:%s" % scala_version,
+        "org.scala-lang:scala-reflect:jar:%s" % scala_version,
+        "org.scala-lang:scala-compiler:jar:%s" % scala_version,
+        "org.scalameta:scalafmt-core_%s:2.4.2" % scala_binary_version,
     ],
     # Some useful options that you may want to try:
     fetch_sources = True,
