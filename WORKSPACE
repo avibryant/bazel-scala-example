@@ -34,11 +34,14 @@ python_register_toolchains(
     python_version = "3.8",
 )
 
+rules_scala_version = "9c0f6b942b2a2555c41b622b41280a45bf7cb92e"
+
 http_archive(
     name = "io_bazel_rules_scala",
-    sha256 = "ae4e74b6c696f40544cafb06b26bf4e601f83a0f29fb6500f0275c988f8cfe40",
-    strip_prefix = "rules_scala-6.2.0",
-    url = "https://github.com/bazelbuild/rules_scala/releases/download/v6.2.0/rules_scala-v6.2.0.tar.gz",
+    sha256 = "e2db6f08109d4ec11cac07c98ceabdbc5cf0b8adbd798d35037f475836d81a23",
+    strip_prefix = "rules_scala-%s" % rules_scala_version,
+    #url = "https://github.com/bazelbuild/rules_scala/releases/download/v%s/rules_scala-v%s.tar.gz" % (rules_scala_version, rules_scala_version),
+    url = "https://github.com/bazelbuild/rules_scala/archive/%s.zip" % rules_scala_version,
 )
 
 load("//tools:scala_version.bzl", "scala_binary_suffix", "scala_binary_version", "scala_version")
