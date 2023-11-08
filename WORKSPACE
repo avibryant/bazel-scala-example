@@ -34,14 +34,13 @@ python_register_toolchains(
     python_version = "3.8",
 )
 
-rules_scala_version = "9c0f6b942b2a2555c41b622b41280a45bf7cb92e"
+RULES_SCALA_VERSION = "6.4.0"
 
 http_archive(
     name = "io_bazel_rules_scala",
-    sha256 = "e2db6f08109d4ec11cac07c98ceabdbc5cf0b8adbd798d35037f475836d81a23",
-    strip_prefix = "rules_scala-%s" % rules_scala_version,
-    #url = "https://github.com/bazelbuild/rules_scala/releases/download/v%s/rules_scala-v%s.tar.gz" % (rules_scala_version, rules_scala_version),
-    url = "https://github.com/bazelbuild/rules_scala/archive/%s.zip" % rules_scala_version,
+    integrity = "sha256-miMFijYYOlVqm6cim08gTT5oyMbreygmBSEBazjvTgA=",
+    strip_prefix = "rules_scala-%s" % RULES_SCALA_VERSION,
+    url = "https://github.com/bazelbuild/rules_scala/releases/download/v%s/rules_scala-v%s.tar.gz" % (RULES_SCALA_VERSION, RULES_SCALA_VERSION),
 )
 
 load("//tools:scala_version.bzl", "scala_binary_suffix", "scala_binary_version", "scala_version")
@@ -106,17 +105,19 @@ http_archive(
 
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 
-rules_pkg_dependencies()
+# Using master temporarily.
+#RULES_JVM_EXTERNAL_VERSION = "5.3"
+# Top commit from master branch.
+RULES_JVM_EXTERNAL_VERSION = "1dd7329412843a45d3694b0774ddcad540e79d1c"
 
-RULES_JVM_EXTERNAL_TAG = "5.3"
-
-RULES_JVM_EXTERNAL_SHA = "6cc8444b20307113a62b676846c29ff018402fd4c7097fcd6d0a0fd5f2e86429"
+RULES_JVM_EXTERNAL_SHA = "fe562738f9ca4bd138eaa03334f493a54a08ca9cd50bf70408e969c0caaa2d6f"
 
 http_archive(
     name = "rules_jvm_external",
     sha256 = RULES_JVM_EXTERNAL_SHA,
-    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_VERSION,
+    #url = "https://github.com/bazelbuild/rules_jvm_external/releases/download/%s/rules_jvm_external-%s.tar.gz" % (RULES_JVM_EXTERNAL_VERSION, RULES_JVM_EXTERNAL_VERSION),
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_VERSION,
 )
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
