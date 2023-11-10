@@ -1,0 +1,113 @@
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "BASE_JDK9_JVM_OPTS", "DEFAULT_JAVACOPTS", "DEFAULT_TOOLCHAIN_CONFIGURATION", "default_java_toolchain")
+load("@io_bazel_rules_scala//scala:scala_toolchain.bzl", "scala_toolchain")
+load("@io_bazel_rules_scala//scala:providers.bzl", "declare_deps_provider")
+load("@io_bazel_rules_scala//scala/scalafmt/toolchain:toolchain.bzl", "export_scalafmt_deps", "scalafmt_toolchain")
+load("//tools:scala_version.bzl", "scala_binary_suffix")
+
+default_java_toolchain(
+    name = "java17_toolchain",
+    configuration = DEFAULT_TOOLCHAIN_CONFIGURATION,
+    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
+    javacopts = DEFAULT_JAVACOPTS,
+    # jvm_opts needs to stay this one also for Java 11, it seems to be common for Java 9+ versions.
+    # It includes e.g. Java module system options.
+    jvm_opts = BASE_JDK9_JVM_OPTS,
+    source_version = "17",
+    target_version = "17",
+    visibility = ["//visibility:public"],
+)
+
+scala_toolchain(
+    name = "my_toolchain_impl",
+    dep_providers = [
+        ":my_scala_compile_classpath_provider",
+        ":my_scala_library_classpath_provider",
+        ":my_scala_macro_classpath_provider",
+        ":my_scala_xml_provider",
+        ":my_parser_combinators_provider",
+    ],
+    scalacopts = ["-Ywarn-unused"],
+    unused_dependency_checker_mode = "off",
+    visibility = ["//visibility:public"],
+)
+
+toolchain(
+    name = "my_scala_toolchain",
+    toolchain = "my_toolchain_impl",
+    toolchain_type = "@io_bazel_rules_scala//scala:toolchain_type",
+    visibility = ["//visibility:public"],
+)
+
+declare_deps_provider(
+    name = "my_scala_compile_classpath_provider",
+    deps_id = "scala_compile_classpath",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:org_scala_lang_scala_compiler",
+        "@maven//:org_scala_lang_scala_library",
+        "@maven//:org_scala_lang_scala_reflect",
+    ],
+)
+
+declare_deps_provider(
+    name = "my_scala_library_classpath_provider",
+    deps_id = "scala_library_classpath",
+    deps = [
+        "@maven//:org_scala_lang_scala_library",
+        "@maven//:org_scala_lang_scala_reflect",
+    ],
+)
+
+declare_deps_provider(
+    name = "my_scala_macro_classpath_provider",
+    deps_id = "scala_macro_classpath",
+    deps = [
+        "@maven//:org_scala_lang_scala_library",
+        "@maven//:org_scala_lang_scala_reflect",
+    ],
+)
+
+declare_deps_provider(
+    name = "my_scala_xml_provider",
+    deps_id = "scala_xml",
+    deps = ["@io_bazel_rules_scala_scala_xml"],
+)
+
+declare_deps_provider(
+    name = "my_parser_combinators_provider",
+    deps_id = "parser_combinators",
+    deps = ["@io_bazel_rules_scala_scala_parser_combinators"],
+)
+
+# Scalafmt
+declare_deps_provider(
+    name = "scalafmt_classpath_provider",
+    deps_id = "scalafmt_classpath",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:com_geirsson_metaconfig_core_%s" % scala_binary_suffix,
+        "@maven//:org_scalameta_parsers_%s" % scala_binary_suffix,
+        "@maven//:org_scalameta_scalafmt_core_%s" % scala_binary_suffix,
+    ],
+)
+
+scalafmt_toolchain(
+    name = "scalafmt_toolchain_impl",
+    dep_providers = [
+        ":scalafmt_classpath_provider",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+toolchain(
+    name = "scalafmt_toolchain",
+    toolchain = ":scalafmt_toolchain_impl",
+    toolchain_type = "@io_bazel_rules_scala//scala/scalafmt/toolchain:scalafmt_toolchain_type",
+    visibility = ["//visibility:public"],
+)
+
+export_scalafmt_deps(
+    name = "scalafmt_classpath",
+    deps_id = "scalafmt_classpath",
+    visibility = ["//visibility:public"],
+)

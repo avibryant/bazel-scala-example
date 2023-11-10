@@ -1,3 +1,5 @@
+package mypackage
+
 import com.twitter.algebird.Semigroup
 
 object Maven {
