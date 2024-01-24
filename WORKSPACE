@@ -106,18 +106,13 @@ http_archive(
 load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
 
 # Using master temporarily.
-#RULES_JVM_EXTERNAL_VERSION = "5.3"
-# Top commit from master branch.
-RULES_JVM_EXTERNAL_VERSION = "1dd7329412843a45d3694b0774ddcad540e79d1c"
-
-RULES_JVM_EXTERNAL_SHA = "fe562738f9ca4bd138eaa03334f493a54a08ca9cd50bf70408e969c0caaa2d6f"
+RULES_JVM_EXTERNAL_VERSION = "6.0"
 
 http_archive(
     name = "rules_jvm_external",
-    sha256 = RULES_JVM_EXTERNAL_SHA,
+    integrity = "sha256-hf1rrVisdsw6J8jgUeQlX/nM2MkrqHlnDRlWIufAqbc=",
     strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_VERSION,
-    #url = "https://github.com/bazelbuild/rules_jvm_external/releases/download/%s/rules_jvm_external-%s.tar.gz" % (RULES_JVM_EXTERNAL_VERSION, RULES_JVM_EXTERNAL_VERSION),
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_VERSION,
+    url = "https://github.com/bazelbuild/rules_jvm_external/releases/download/%s/rules_jvm_external-%s.tar.gz" % (RULES_JVM_EXTERNAL_VERSION, RULES_JVM_EXTERNAL_VERSION),
 )
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
